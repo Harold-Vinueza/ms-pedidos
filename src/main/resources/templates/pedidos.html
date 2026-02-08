@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MS-Pedidos</title>
+
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            margin: 0;
+            padding: 30px;
+        }
+        .container{
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        h2{ color:#333; margin-bottom:10px }
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:15px;
+        }
+        th, td{
+            padding:10px;
+            border-bottom:1px solid #ddd;
+            text-align:left;
+        }
+        th{ background:#f4f4f4 }
+        input{
+            width:100%;
+            padding:8px;
+            margin-bottom:10px;
+            border-radius:6px;
+            border:1px solid #ccc;
+        }
+        button{
+            background:#667eea;
+            color:white;
+            border:none;
+            padding:10px 16px;
+            border-radius:6px;
+            cursor:pointer;
+            font-weight:bold;
+        }
+        button:hover{ background:#5a6fdc }
+
+        /*  MENSAJES */
+        .success-box{
+            margin-top:15px;
+            padding:12px;
+            background:#e6ffed;
+            border-left:6px solid #2ecc71;
+            color:#1e8449;
+            font-weight:bold;
+            font-size:16px;
+            border-radius:6px;
+        }
+        .error-box{
+            margin-top:15px;
+            padding:14px;
+            background:#ffe6e6;
+            border-left:6px solid #e74c3c;
+            color:#b30000;
+            font-weight:bold;
+            font-size:18px; /* 👈 TEXTO GRANDE */
+            border-radius:6px;
+        }
+        .cliente-box{
+            margin-top:20px;
+            padding:15px;
+            background:#f0f4ff;
+            border-left:6px solid #667eea;
+            border-radius:6px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h2>📦 Gestión de Pedidos</h2>
+    <p>Microservicio <b>ms-pedidos</b> consumiendo <b>ms-clientes</b>.</p>
+
+    <!-- FORMULARIO -->
+    <form th:action="@{/pedidos/crear}" method="post" th:object="${pedido}">
+        <label>ID Cliente</label>
+        <input type="number" th:field="*{clienteId}" required>
+
+        <label>Descripción</label>
+        <input type="text" th:field="*{descripcion}" required>
+
+        <label>Total</label>
+        <input type="number" step="0.01" th:field="*{total}" required>
+
+        <button type="submit">Guardar Pedido</button>
+    </form>
+
+    <!-- MENSAJES -->
+    <div th:if="${mensaje}" class="success-box" th:text="${mensaje}"></div>
+    <div th:if="${error}" class="error-box" th:text="${error}"></div>
+
+    <!-- DATOS DEL CLIENTE -->
+    <div th:if="${cliente != null and cliente.nombre != null}" class="cliente-box">
+        <h3>👤 Datos del Cliente (desde ms-clientes)</h3>
+        <p><b>Nombre:</b> <span th:text="${cliente.nombre}"></span></p>
+        <p><b>Apellido:</b> <span th:text="${cliente.apellido}"></span></p>
+        <p><b>Email:</b> <span th:text="${cliente.email}"></span></p>
+        <p><b>Dirección:</b> <span th:text="${cliente.direccion}"></span></p>
+    </div>
+
+    <!-- TABLA -->
+    <h2>📄 Lista de Pedidos</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente ID</th>
+            <th>Descripción</th>
+            <th>Total</th>
+            <th>Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${pedidos}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.clienteId}"></td>
+            <td th:text="${p.descripcion}"></td>
+            <td th:text="${p.total}"></td>
+            <td th:text="${p.fecha}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
