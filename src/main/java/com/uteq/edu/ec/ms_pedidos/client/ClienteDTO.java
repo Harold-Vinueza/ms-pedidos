@@ -1,7 +1,8 @@
 package com.uteq.edu.ec.ms_pedidos.client;
 
 public class ClienteDTO {
-
+    //Probar la nueva Rama feature-colaboracion
+    // DTO para representar la información del cliente obtenida del microservicio de clientes
     private Long id;
     private String nombre;
     private String apellido;
