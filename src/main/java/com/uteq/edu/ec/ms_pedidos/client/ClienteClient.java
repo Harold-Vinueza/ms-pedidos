@@ -8,11 +8,10 @@ import org.springframework.web.client.RestTemplate;
 public class ClienteClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    //cometario para probar commit
     // Método para obtener un cliente por su ID desde el microservicio de clientes
     public ClienteDTO obtenerClientePorId(Long id) {
         try {
-            String url = "http://localhost:8081/api/clientes/" + id;
+            String url = "http://ms-clientes-service:8081/api/clientes/" + id;
             return restTemplate.getForObject(url, ClienteDTO.class);
         } catch (HttpClientErrorException.NotFound e) {
             return null;

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-pedidos
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ms-pedidos
+  template:
+    metadata:
+      labels:
+        app: ms-pedidos
+    spec:
+      containers:
+        - name: ms-pedidos
+          image: acrharolito2026.azurecr.io/ms-pedidos:1.0
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://postgres:5432/pedidos_db"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "Harolito"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "1234"
